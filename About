@@ -1,0 +1,25 @@
+# publishe value is true by default. if we donot pass any value then it will be true
+# return {"message": "Post created successfully!"}
+
+# print(post) # if we use post.title then it will print only title
+# print(post.dict()) # it will print all the data in dictionary format
+# title str, content str,category str, published bool = True
+# http method get
+# @app.get("/") it si a decorator .if we don't use this then program act as simple python program
+# "/" it is the root path
+# Order does matter in this 
+# uvicorn main:app --reload
+
+
+# @app.get("/post/latest")
+# def get_latest_post():
+#     post = my_posts[len(my_posts) - 1]
+#     return {"latest_post" : post}
+# if we write this post below the get_post function, it will not work because
+#  it will be considered as a path parameter and will not be able to find the
+#  latest post. So we need to write this function above the get_post function.
+
+
+===>DELETING
+#Find the index in the Arrat that has required  index
+#my_posts.pop(index)
