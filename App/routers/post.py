@@ -1,5 +1,6 @@
 from fastapi import FastAPI, Response, status,HTTPException,Depends,APIRouter
 from ..import models,schemas
+from typing import List,Optional
 from sqlalchemy.orm import Session
 from ..dataBase import get_db
 from .. import outh2
@@ -12,10 +13,13 @@ router=APIRouter(
 
 @router.get("/", status_code=status.HTTP_200_OK,response_model=list[schemas.Post])
 # ,response_model=list[schemas.Post] without using this we can also get all posts
-def data(db:Session= Depends(get_db),current_user:int =Depends(outh2.get_current_user)):
+def data(db:Session= Depends(get_db),current_user:int =Depends(outh2.get_current_user),
+         limit:int =5,skip:int=0,search: Optional[str]=""):
     # cursor.execute("""SELECT * FROM posts""")
     # posts=cursor.fetchall()
-    posts=db.query(models.Post).all()
+    print(limit)
+    posts=db.query(models.Post).filter(models.Post.title.contains(search)).limit(limit).offset(skip).all()
+    #.filter(models.Post.user_id == current_user.id)
     return posts
 
 
@@ -46,6 +50,10 @@ def get_posts(id: int,db:Session= Depends(get_db),
     if not post:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND,
                              detail=f"post with id: {id} was not found") 
+
+    # if post.user_id !=current_user.id:
+    #         raise HTTPException(status_code=status.HTTP_403_FORBIDDEN,
+    #                             detail=f"Not authorized to perform requested Action.")
      
     return  post
 

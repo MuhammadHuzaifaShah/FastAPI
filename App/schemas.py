@@ -2,21 +2,6 @@ from pydantic import BaseModel,EmailStr,ConfigDict
 from datetime import datetime 
 from typing import Optional
 
-class PostBase(BaseModel):
-    title: str
-    content: str
-    published: bool = True  
-
-class PostCreate(PostBase):
-    pass
-
-
-class Post(PostBase):
-    id: int
-    created_at:datetime
-    user_id: int
-    
-    model_config = ConfigDict(from_attributes=True)
 
 class userCreate(BaseModel):
     email: EmailStr
@@ -32,6 +17,24 @@ class userOut(BaseModel):
 class userLogin(BaseModel):
     email: EmailStr
     password:str
+
+
+class PostBase(BaseModel):
+    title: str
+    content: str
+    published: bool = True  
+
+class PostCreate(PostBase):
+    pass
+
+
+class Post(PostBase):
+    id: int
+    created_at:datetime
+    user_id: int
+    user:userOut
+    
+    model_config = ConfigDict(from_attributes=True)
 
 class Token(BaseModel):
     access_token:str
