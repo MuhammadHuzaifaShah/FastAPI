@@ -32,8 +32,13 @@ class Post(PostBase):
     id: int
     created_at:datetime
     user_id: int
-    user:userOut
-    
+    user:userOut 
+    model_config = ConfigDict(from_attributes=True)
+
+class PostOut(BaseModel):
+    Post: Post
+    votes: int
+
     model_config = ConfigDict(from_attributes=True)
 
 class Token(BaseModel):
